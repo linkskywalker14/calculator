@@ -1,24 +1,45 @@
+// Business logic:
+
 function add(number1, number2) {
   return number1 + number2;
-}
+};
 
 function subtract(number1, number2){
   return number1 - number2;
-}
+};
 
 function multiply(number1, number2){
   return number1 * number2;
-}
+};
 
 function divide(number1, number2){
-  return number1 / number2;
-}
+  let result = number1 / number2;
+  let remainder = number1 % number2;
+  if (remainder === 0){
+    return result;
+  } else {
+    return parseInt(result)+", remainder: "+remainder;
+  }
+};
 
-function remainder(number1, number2){
-  return number1 % number2;
-}
 
-const number1 = parseInt(prompt("Enter a number:"));
-const number2 = parseInt(prompt("Enter another number:"));
-
-alert(add(number1, number2));
+// Everything below this line is user interface logic:
+$(document).ready(function() {
+  $("form#calculator").submit(function() {
+    event.preventDefault();
+    const number1 = parseInt($("#input1").val());
+    const number2 = parseInt($("#input2").val());
+    const operator = $("input:radio[name=operator]:checked").val();
+    let result 
+    if (operator === 'add') {
+      result = add(number1, number2);
+    } else if (operator === 'subtract'){
+      result = subtract(number1, number2);
+    } else if (operator === 'multiply'){
+      result = multiply(number1, number2);
+    } else if (operator === 'divide'){
+      result = divide(number1, number2);
+    };
+    $("#output").text(result);
+  });
+});
